@@ -1,8 +1,9 @@
-var topic = ["Paul Rudd", "David Duchovny", "Topher Grace", "Rick Moranic"];
+var hotDudes = ["Paul Rudd", "David Duchovny", "Topher Grace", "Rick Moranic"];
 
 
 function displayTopicPhoto() {
-	var topic = $(this).attr("topic-name");
+	var topic = $(this).attr("data-name");
+  console.log("this= "+topic);
 	var queryURL = "http://api.giphy.com/v1/gifs/search?q="+topic+"&api_key=dc6zaTOxFJmzC&limit=10";
 
     $.ajax({
@@ -13,18 +14,36 @@ function displayTopicPhoto() {
     //
     .done(function(response){
       	console.log(response);
-      	var imageUrl = response.data[0].images.original.webp;
+
+        var imageStill = "" //response.data[0].images.original_still.url;
+      	var imageAnimate = ""//response.data[0].images.original.url;
+        var state = "still"
+        imageUrl = imageStill;
+
       	console.log(imageUrl);
+        //var topicImage = $("<img");
 
         //
-        var topicImage = $("<img>");
+        for (var i=0; i<response.data.length;i++)
+        {
+          imageStill=response.data[i].images.original_still.url;
+          imageAnimate = response.data[i].images.original.url;
+          console.log("IS="+imageStill);
+          console.log("IA="+imageAnimate);
+          topicImage = $("<img>");          //
+          topicImage.attr("src", imageStill);
+          topicImage.attr("data-still", imageStill);
+          topicImage.attr("data-animate", imageAnimate);
+          topicImage.attr("data-state", state);
+          topicImage.addClass("gifs");
+          topicImage.attr("alt", topic);
+          $("#images").prepend(topicImage);
+          console.log(topicImage);
+
+        }
 
         //
-        topicImage.attr("src", imageUrl);
-        topicImage.attr("alt", "cat image");
-
-        //
-        $("#images").prepend(topicImage);
+        
 
     })
 }      
@@ -33,10 +52,10 @@ function renderButtons() {
     // Deleting the topics prior to adding new topics
         // (this is necessary otherwise you will have repeat buttons)
         $("#buttons-view").empty();
-        console.log("topic.length"+ topic.length);
+        console.log("hotDudes.length"+ hotDudes.length);
 
         // Looping through the array of topics
-        for (var i = 0; i < topic.length; i++) {
+        for (var i = 0; i < hotDudes.length; i++) {
 
           // Then dynamicaly generating buttons for each topic in the array
           // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
@@ -44,9 +63,9 @@ function renderButtons() {
           // Adding a class of topics to our button
           a.addClass("topics");
           // Adding a data-attribute
-          a.attr("data-name", topic[i]);
+          a.attr("data-name", hotDudes[i]);
           // Providing the initial button text
-          a.text(topic[i]);
+          a.text(hotDudes[i]);
           // Adding the button to the buttons-view div
           $("#buttons-view").append(a);
 
@@ -60,12 +79,13 @@ $("#add-topic").on("click", function(event) {
     // This line grabs the input from the textbox
     var topics = $("#topic-input").val().trim();
 
-    // Adding movie from the textbox to our array
-    topic.push(topics);
+    // Adding topic from the textbox to our array
+    hotDudes.push(topics);
 
     // Calling renderButtons which handles the processing of our movie array
     renderButtons();
     });
+
 
     // Adding a click event listener to all elements with a class of "movie"
  	$(document).on("click", ".topics", displayTopicPhoto);
