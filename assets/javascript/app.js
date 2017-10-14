@@ -86,9 +86,29 @@ $("#add-topic").on("click", function(event) {
     renderButtons();
     });
 
+    // $(".gif").on("click", function() {
+        // STEP ONE: study the html above.
+        // Look at all the data attributes.
+        // Run the file in the browser. Look at the images.
+    function changePhotoState()   {
+        var state = $(this).attr("data-state");
+        console.log(state);
+        if (state =="still"){
+          $(this).attr("data-state", "animate");
+          $(this).attr("src",$(this).attr("data-animate"));
+        } 
+        else {
+          $(this).attr("data-state", "still");
+          $(this).attr("src",$(this).attr("data-still"));
+        }
+        
+    }
+
+
 
     // Adding a click event listener to all elements with a class of "movie"
  	$(document).on("click", ".topics", displayTopicPhoto);
+  $(document).on("click", ".gifs", changePhotoState);
 
     // Calling the renderButtons function to display the intial buttons
     renderButtons();
