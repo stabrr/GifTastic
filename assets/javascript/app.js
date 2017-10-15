@@ -1,4 +1,4 @@
-var hotDudes = ["Paul Rudd", "David Duchovny", "Topher Grace", "Rick Moranic"];
+var hotDudes = ["Paul Rudd", "David Duchovny", "Topher Grace", "Rick Moranis"];
 
 
 function displayTopicPhoto() {
@@ -24,6 +24,7 @@ function displayTopicPhoto() {
         //var topicImage = $("<img");
 
         //
+        $("#images").empty();
         for (var i=0; i<response.data.length;i++)
         {
           imageStill=response.data[i].images.original_still.url;
@@ -51,6 +52,7 @@ function displayTopicPhoto() {
 function renderButtons() {
     // Deleting the topics prior to adding new topics
         // (this is necessary otherwise you will have repeat buttons)
+
         $("#buttons-view").empty();
         console.log("hotDudes.length"+ hotDudes.length);
 
@@ -61,7 +63,7 @@ function renderButtons() {
           // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
           var a = $("<button>");
           // Adding a class of topics to our button
-          a.addClass("topics");
+          a.addClass("topics btn btn-default btn-success btn-group");
           // Adding a data-attribute
           a.attr("data-name", hotDudes[i]);
           // Providing the initial button text
@@ -76,14 +78,22 @@ function renderButtons() {
 // This function handles events where a movie button is clicked
 $("#add-topic").on("click", function(event) {
     event.preventDefault();
+    console.log("event"+event);
     // This line grabs the input from the textbox
     var topics = $("#topic-input").val().trim();
+    var alreadyUsed = $.inArray(topics,hotDudes);
+    console.log(topics);
+    console.log(alreadyUsed);
+    if (topics && alreadyUsed<0){
 
-    // Adding topic from the textbox to our array
-    hotDudes.push(topics);
 
-    // Calling renderButtons which handles the processing of our movie array
-    renderButtons();
+      // Adding topic from the textbox to our array
+      hotDudes.push(topics);
+
+      // Calling renderButtons which handles the processing of our movie array
+      renderButtons();
+    }
+
     });
 
     // $(".gif").on("click", function() {
