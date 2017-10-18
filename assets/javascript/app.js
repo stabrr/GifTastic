@@ -1,4 +1,4 @@
-var hotDudes = ["Paul Rudd", "David Duchovny", "Topher Grace", "Rick Moranis"];
+var hotDudes = ["Richard Gere", "David Duchovny", "Martin Freeman", "Rick Moranis"];
 
 
 function displayTopicPhoto() {
@@ -6,10 +6,10 @@ function displayTopicPhoto() {
   console.log("this= "+topic);
 	var queryURL = "http://api.giphy.com/v1/gifs/search?q="+topic+"&api_key=dc6zaTOxFJmzC&limit=10";
 
-    $.ajax({
-    	url: queryURL,
-      	method: "GET"
-    })
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
 
     //
     .done(function(response){
@@ -89,6 +89,7 @@ $("#add-topic").on("click", function(event) {
 
       // Adding topic from the textbox to our array
       hotDudes.push(topics);
+      $("#topic-input").val(" ");
 
       // Calling renderButtons which handles the processing of our movie array
       renderButtons();
