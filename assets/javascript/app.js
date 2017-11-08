@@ -7,7 +7,7 @@ function displayTopicPhoto() {
   //grabs the topic name to get photos
 	var topic = $(this).attr("data-name");
   //string to query api
-	var queryURL = "http://api.giphy.com/v1/gifs/search?q="+topic+"&api_key=dc6zaTOxFJmzC&limit=10";
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q="+topic+"&api_key=dc6zaTOxFJmzC&limit=10";
 
   //calls the api
   $.ajax({
